@@ -73,4 +73,34 @@ class RecommendRequestTest extends TestCase
         $this->setExpectedException(InvalidRequestException::class, "The 'userID' parameter is required");
         $this->request->getData();
     }
+    public function testFilterPage()
+    {
+        $this->request->initialize([
+            'requestID' => (string) time(),
+            'sceneID' => '4444',
+            'userID' => 'JimChen007',
+            'page' => 0,
+        ]);
+
+        $this->assertArrayHasKey('page', $this->request->getData());
+        $this->assertSame(0, $this->request->getData()['page']);
+
+        $this->request->initialize([
+            'requestID' => (string) time(),
+            'sceneID' => '4444',
+            'userID' => 'JimChen007',
+            'page' => '0',
+        ]);
+
+        $this->assertArrayHasKey('page', $this->request->getData());
+        $this->assertSame(0, $this->request->getData()['page']);
+
+        $this->request->initialize([
+            'requestID' => (string) time(),
+            'sceneID' => '4444',
+            'userID' => 'JimChen007',
+            'page' => -1,
+        ]);
+        $this->assertArrayNotHasKey('page', $this->request->getData());
+    }
 }
