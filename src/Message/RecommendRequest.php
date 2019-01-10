@@ -37,7 +37,13 @@ class RecommendRequest extends AbstractRequest
             'page' => (int) $this->getParameter('page'),
         ];
 
-        return array_filter($data);
+        return array_filter($data, function ($value) {
+            if (is_numeric($value)) {
+                return $value >= 0;
+            }
+
+            return (bool)$value;
+        });
     }
 
     /**
