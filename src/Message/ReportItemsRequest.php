@@ -52,7 +52,12 @@ class ReportItemsRequest extends AbstractRequest
         foreach ($items as $key => $item) {
             $object->initialize($item)->setItemKey($key);
             $object->validate('itemId', 'title', 'content', 'url');
-            $data[] = array_filter($object->toArray());
+            $data[] = array_filter($object->toArray(), function ($value) {
+                if (is_string($value) && $value !== '0') {
+                    return !empty($value);
+                }
+                return true;
+            });
         }
 
         return $data;
