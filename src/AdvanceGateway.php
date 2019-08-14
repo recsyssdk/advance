@@ -72,7 +72,7 @@ class AdvanceGateway extends AbstractGateway
         ])->noRequiredClientToken();
     }
 
-    public function reportItem(array $parameter)
+    public function reportItem($parameter)
     {
         return $this->reportItems([$parameter]);
     }
